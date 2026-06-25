@@ -1,6 +1,7 @@
 import { test, expect, request } from '@playwright/test';
 
 test('should create, update, and delete a user through API workflow', async () => {
+
   const api = await request.newContext({
     baseURL: 'https://jsonplaceholder.typicode.com',
   });
@@ -17,7 +18,6 @@ test('should create, update, and delete a user through API workflow', async () =
   expect(createResponse.status()).toBe(201);
 
   const createResponseBody = await createResponse.json();
-
 
   const userId = 1;
 

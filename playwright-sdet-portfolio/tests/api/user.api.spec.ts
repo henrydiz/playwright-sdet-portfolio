@@ -20,9 +20,9 @@ test('should create a new user', async () => {
 
 
   const userId = responseBody.id;
+  expect(userId).toBeDefined();
 
   expect(responseBody.name).toBe(payload.name);
   expect(responseBody.job).toBe(payload.job);
   expect(responseBody.id).toBeDefined();
-  expect(userId).toBeDefined();
 });

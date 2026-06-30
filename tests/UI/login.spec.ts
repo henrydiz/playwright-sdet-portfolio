@@ -1,23 +1,28 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../pages/LoginPage';
+import { LoggedInPage } from '../../pages/LoggedInPage';
 
-test('should login successfully', async ({ page }) => {
-  //loginPage is an instance of the LoginPage class, which is imported from the pages/LoginPage.ts file. It is used to interact with the login page of the application being tested.
+test('should login successfully and logout', async ({ page }) => {
   const loginPage = new LoginPage(page);
+  const loggedInPage = new LoggedInPage(page);
 
   await loginPage.goto();
   await loginPage.login('student', 'Password123');
 
-  await loginPage.expectSuccessfulLogin();
+  await loggedInPage.expectSuccessfulLogin();
 
-  await expect(page.getByText('Logged In Successfully')).toBeVisible();
+  await loggedInPage.logout();
+
+  await expect(page).toHaveURL(
+    'https://practicetestautomation.com/practice-test-login/'
+  );
 });
 
 test('should show error for invalid password', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.goto();
-await loginPage.login('student', 'WrongPassword');
+  await loginPage.login('student', 'WrongPassword');
 
-await loginPage.expectLoginError('Your password is invalid!');  
+  await loginPage.expectLoginError('Your password is invalid!');
 });
